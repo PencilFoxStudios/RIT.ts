@@ -1,4 +1,4 @@
-name: Build iNaturaliTS
+name: Build RIT.ts
 
 on:
   push:
