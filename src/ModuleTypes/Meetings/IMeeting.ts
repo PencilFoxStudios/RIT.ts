@@ -1,7 +1,7 @@
 import { MeetingType } from "../../API/Meetings/MeetingType";
-import { Room } from "../Rooms";
+import { IRoom } from "../Rooms";
 
-export interface Meeting {
+export interface IMeeting {
     /** 0300d5f396a0937481547afd0db12a27 */
     id: string,
     /** 2024-02-06 */
@@ -16,5 +16,5 @@ export interface Meeting {
     createdAt: string,
     /** -000001-11-30T05:00:00.000000Z */
     updatedAt: string,
-    room: Room
+    getRoom: () => Promise<IRoom|null>
 }

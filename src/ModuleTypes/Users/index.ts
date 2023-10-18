@@ -1,5 +1,5 @@
-import { Faculty } from "./Faculty";
-import { Student } from "./Student";
-import { User } from "./User";
+import { IFaculty } from "./IFaculty";
+import { IStudent } from "./IStudent";
+import { IUser } from "./IUser";
 
-export { Faculty, Student, User }
+export { IFaculty, IStudent, IUser }

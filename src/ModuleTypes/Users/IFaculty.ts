@@ -1,7 +1,7 @@
 import { UserType } from "../../API/Users/UserType";
-import { User } from "./User";
+import { IUser } from "./IUser";
 
-export interface Faculty extends User {
+export interface IFaculty extends IUser {
     type: UserType.Faculty,
     department: string,
 }

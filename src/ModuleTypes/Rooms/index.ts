@@ -1,3 +1,3 @@
-import { Room } from "./Room";
+import { IRoom } from "./IRoom";
 
-export { Room }
+export { IRoom }

@@ -1,6 +1,7 @@
 import { UserType } from "../../API/Users/UserType"
+import { ICourse } from "../Courses"
 
-export interface User {
+export interface IUser {
     type: UserType,
     username: string,
     firstName: string,
@@ -9,5 +10,6 @@ export interface User {
     displayName: string,
     givenName: string,
     initials: string,
-    universityID: string
+    universityID: string,
+    getCourses: () => Promise<ICourse[]|null>
 }

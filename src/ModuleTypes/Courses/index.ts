@@ -1,3 +1,3 @@
-import { Course } from "./Course";
+import { ICourse } from "./ICourse";
 
-export { Course }
+export { ICourse }

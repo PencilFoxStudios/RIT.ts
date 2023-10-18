@@ -1,3 +1,3 @@
-import { Meeting } from "./Meeting";
+import { IMeeting } from "./IMeeting";
 
-export { Meeting }
+export { IMeeting }

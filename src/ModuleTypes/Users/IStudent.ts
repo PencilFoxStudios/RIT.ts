@@ -1,7 +1,7 @@
 import { UserType } from "../../API/Users/UserType";
-import { User } from "./User";
+import { IUser } from "./IUser";
 
-export interface Student extends User {
+export interface IStudent extends IUser {
     type: UserType.Student,
     plans: string[],
     colleges: string[]
