@@ -1,6 +1,11 @@
 import { RITClient } from "../API/RITClient";
-import { Course } from "../ModuleTypes/Courses";
-import { Faculty, Student, User } from "../ModuleTypes/Users";
+import { APIUser } from "../API/Users/APIUser";
+import { UserType } from "../API/Users/UserType";
+import { ICourse } from "../ModuleTypes/Courses";
+import { IUser } from "../ModuleTypes/Users";
+import { Faculty } from "./Objects/Faculty";
+import { Student } from "./Objects/Student";
+
 
 export class TigerClient {
     private RITAPIKEY:string;
@@ -13,12 +18,18 @@ export class TigerClient {
      * Access the RIT API to get information about a user.
      * @param RITUsername the username of the user to get information about.
      */
-    Users = (RITUsername:User["username"]) => {
+    Users = (RITUsername:IUser["username"]) => {
         return {
-            getInfo: async ():Promise<Student|Faculty|null> => {
-                return null;
-            },
-            getCourses: async ():Promise<Course[]|null> => {
+            get: async ():Promise<Student|Faculty|null> => {
+                const User:APIUser|null = await this.RITAPIClient.getUser(RITUsername);
+                if(User){
+                    switch(User.type['0']){
+                        case UserType.Faculty:
+                            return new Faculty(this.RITAPIClient, User);
+                        case UserType.Student:
+                            return new Student(this.RITAPIClient, User);
+                    }
+                }
                 return null;
             },
         }

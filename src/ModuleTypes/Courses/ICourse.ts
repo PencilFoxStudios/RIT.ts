@@ -1,3 +1,5 @@
+import { Faculty } from "../../RIT.TS/Objects/Faculty";
+import { Meeting } from "../../RIT.TS/Objects/Meeting";
 import { IMeeting } from "../Meetings";
 import { IFaculty } from "../Users";
 
@@ -9,10 +11,10 @@ export interface ICourse {
     /** Intro to Software Engineering */
     name: string,
     /** 2131 */
-    term: string,
+    term?: string,
     /** 42 */
     studentCount: number,
-    meetings: IMeeting[],
+    meetings: Meeting[],
     /** Returns the faculty associated with this course, if any. */
-    getInstructors: () => Promise<IFaculty[]|null>
+    getInstructors: () => Promise<Faculty[]|null>
 }

@@ -1,4 +1,5 @@
 import { RoomType } from "../../API/Rooms/RoomType";
+import { Meeting } from "../../RIT.TS/Objects/Meeting";
 import { IMeeting } from "../Meetings";
 
 export interface IRoom {
@@ -11,5 +12,5 @@ export interface IRoom {
     roomFullName: string,
     maxCapacity: number,
     /** Returns the meetings that take place in this room. */
-    getMeetings: (onDate?:Date, beforeDate?:Date, afterDate?:Date) => Promise<IMeeting[]|null>
+    getMeetings: (onDate?:Date, beforeDate?:Date, afterDate?:Date) => Promise<Meeting[]|null>
 }

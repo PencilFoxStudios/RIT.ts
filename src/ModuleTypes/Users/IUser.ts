@@ -8,8 +8,11 @@ export interface IUser {
     lastName: string,
     email: string,
     displayName: string,
-    givenName: string,
     initials: string,
+    /**
+     * **NOTE** This is NOT a standard 9-digit UID number.
+     * I still have yet to figure out what exactly this is.
+     */
     universityID: string,
     getCourses: () => Promise<ICourse[]|null>
 }

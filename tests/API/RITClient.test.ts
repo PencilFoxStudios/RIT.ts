@@ -10,7 +10,8 @@ test('RITClient returns correct term', async () => {
 
 test('RITClient returns correct user', async () => {
   const SelectedUser = await Client.getUser("lhw2837");
-  console.log(SelectedUser)
   expect(SelectedUser).toBeTruthy();
+ 
   expect(SelectedUser!.initials["0"]).toBe("LW");
+
 });

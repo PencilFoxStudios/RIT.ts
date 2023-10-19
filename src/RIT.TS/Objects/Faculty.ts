@@ -4,15 +4,15 @@ import { RITClient } from "../../API/RITClient";
 import { APIUser } from "../../API/Users/APIUser";
 import { UserType } from "../../API/Users/UserType";
 import { ICourse } from "../../ModuleTypes/Courses";
-import { IStudent } from "../../ModuleTypes/Users";
+import { IFaculty, IStudent } from "../../ModuleTypes/Users";
 import { TigerClient } from "../TigerClient";
 import { Course } from "./Course";
 
-export class Student implements IStudent {
+export class Faculty implements IFaculty {
     private RITClient:RITClient;
-    // TigerClient for methods
+    // RITClient for methods
 
-    type: UserType.Student; // Assign the specific UserType
+    type: UserType.Faculty = UserType.Faculty; // Assign the specific UserType
     username: string;
     firstName: string;
     lastName: string;
@@ -20,8 +20,7 @@ export class Student implements IStudent {
     displayName: string;
     initials: string;
     universityID: string;
-    plans: string[]; // Property specific to IStudent
-    colleges: string[]; // Property specific to IStudent
+    department: string; // Property specific to IFaculty
 
     constructor(
         RITClient:RITClient,
@@ -30,7 +29,6 @@ export class Student implements IStudent {
         this.RITClient = RITClient;
         // Get client
 
-        this.type = UserType.Student;
         this.username = APIUser.cn["0"];
         this.firstName = APIUser.givenname["0"];
         this.lastName = APIUser.sn["0"];
@@ -38,10 +36,10 @@ export class Student implements IStudent {
         this.displayName = APIUser.displayname["0"];
         this.initials = APIUser.initials["0"];
         this.universityID = APIUser.uidnumber["0"];
-        // These properties will exist if it's a student :)
-        this.plans = APIUser.plans!;
-        this.colleges = APIUser.colleges!;
+        // These properties will exist if it's a faculty member :)
+        this.department = APIUser.department![0];
     }
+    
 
     async getCourses(): Promise<Course[] | null> {
         const result: APICourse[]|null = await this.RITClient.getUserCourses(this.username);
