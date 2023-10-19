@@ -1,5 +1,7 @@
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
-    verbose: true
+    verbose: true,
+    collectCoverage: true,
+    coverageReporters: ['text', 'cobertura'],
   };
