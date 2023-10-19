@@ -25,4 +25,9 @@ jobs:
       run: npm test
       env:
         RIT_API_KEY: ${{ secrets.RIT_API_KEY }}
+        
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 

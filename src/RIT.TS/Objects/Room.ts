@@ -3,6 +3,7 @@ import { RITClient } from "../../API/RITClient";
 import { APIRoom } from "../../API/Rooms/APIRoom";
 import { RoomType } from "../../API/Rooms/RoomType";
 import { IRoom } from "../../ModuleTypes/Rooms";
+import { DateObject } from "../Helpers/DateObject";
 import { Meeting } from "./Meeting";
 
 export class Room implements IRoom {
@@ -17,7 +18,7 @@ export class Room implements IRoom {
     roomNumber: string;
     roomFullName: string;
     maxCapacity: number;
-    getMeetings: (onDate?: Date | undefined, beforeDate?: Date | undefined, afterDate?: Date | undefined) => Promise<Meeting[] | null>;
+    getMeetings: (beforeDate?: DateObject, afterDate?: DateObject) => Promise<Meeting[] | null>;
 
     constructor(RITClient: RITClient, RoomData: APIRoom) {
         this.RITClient = RITClient;
@@ -30,8 +31,8 @@ export class Room implements IRoom {
         this.roomNumber = RoomData.room;
         this.roomFullName = RoomData.name;
         this.maxCapacity = RoomData.capacity;
-        this.getMeetings = async (): Promise<Meeting[] | null> => {
-            const result: APIMeeting[]|null = await this.RITClient.getMeetingsInRoom(this.id);
+        this.getMeetings = async (beforeDate?: DateObject, afterDate?: DateObject): Promise<Meeting[] | null> => {
+            const result: APIMeeting[]|null = await this.RITClient.getMeetingsInRoom(this.id, beforeDate?.toDateString(), afterDate?.toDateString());
             if(result){
                 const meetings:Meeting[] = [];
                 for (const M of result){

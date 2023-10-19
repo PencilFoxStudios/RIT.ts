@@ -15,3 +15,6 @@ test('RITClient returns correct user', async () => {
   expect(SelectedUser!.initials["0"]).toBe("LW");
 
 });
+
+
+
