@@ -22,5 +22,6 @@ More documentation hopefully coming soon.
 Don't forget to make a ``.env`` file defining an ``RIT_API_KEY`` if you're going to contribute to development!
 
 ``npm test`` -- Run tests
+
 ``npm run build`` -- Build the package
 
