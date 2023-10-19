@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    environment: apikey
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -23,3 +23,6 @@ jobs:
 
     - name: Run Jest tests
       run: npm test
+      env:
+        RIT_API_KEY: ${{ secrets.RIT_API_KEY }}
+
