@@ -11,6 +11,7 @@ export class Meeting implements IMeeting{
     
     id: string;
     date: string;
+    day: string;
     timeStart: string;
     timeEnd: string;
     meetingType: MeetingType;
@@ -26,6 +27,7 @@ export class Meeting implements IMeeting{
 
         this.id = MeetingData.id;
         this.date = MeetingData.date;
+        this.day = MeetingData.day;
         this.timeStart = MeetingData.start;
         this.timeEnd = MeetingData.end;
         this.meetingType = MeetingData.meetingtype;

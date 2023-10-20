@@ -6,6 +6,7 @@ import { MeetingType } from "./MeetingType";
  * @interface Meeting
  * @param id - The ID of the meeting in the RIT system
  * @param date - The date that the meeing will take place. Format: yyyy-mm-dd
+ * @param day - The day of the week that the meeting takes place Ex: "Monday"
  * @param start - Start time of the meeting
  * @param end - End time of the meeting
  * @param meeting - The given name of the meeting
@@ -22,6 +23,7 @@ import { MeetingType } from "./MeetingType";
 export interface APIMeeting {
     id: string,
     date: string,
+    day: string,
     start: string,
     end: string,
     meeting: string,

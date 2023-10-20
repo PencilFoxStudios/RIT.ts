@@ -7,6 +7,8 @@ export interface IMeeting {
     id: string,
     /** 2024-02-06 */
     date: string,
+    /** Monday */
+    day: string,
     /** 10:00:00 */
     timeStart: string,
     /** 11:00:00 */
