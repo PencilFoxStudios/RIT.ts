@@ -1,10 +1,6 @@
 name: Run Jest Tests
 
-on:
-  push:
-    branches:
-      - main  # Change this to your main branch
-
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
