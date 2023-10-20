@@ -1,3 +1,6 @@
+/**
+ * Types of rooms that are present in the RIT API
+ */
 export enum RoomType {
     /**
      * General Purpose Classroom
