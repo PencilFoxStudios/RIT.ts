@@ -16,5 +16,26 @@ test('RITClient returns correct user', async () => {
 
 });
 
+test('RITClient returns correct user courses', async () => {
+  const Courses = await Client.getUserCourses("munson");
+  expect(Courses).toBeTruthy();
+});
+
+test('RITClient returns correct room', async () => {
+  const SelectedRoom = await Client.getRoom("b07510a8c71c60e722deeb9e67eadb74");
+  expect(SelectedRoom).toBeTruthy();
+  expect(SelectedRoom!.name).toBe("George Eastman Hall (EAS)-1310");
+  expect(SelectedRoom!.BuildingCode).toBe("EAS");
+});
+
+test('RITClient returns correct building', async () => {
+  const SelectedBuilding = await Client.getBuilding("011");
+  expect(SelectedBuilding).toBeTruthy();
+  expect(SelectedBuilding!.name).toBe("SH Explore & Devel");
+});
+
+// test('RITClient user does not exist', async () => {
+//   expect(Client.getUser("lol129")).toBeNull();
+// });
 
 

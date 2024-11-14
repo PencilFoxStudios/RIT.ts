@@ -42,9 +42,9 @@ export class RITClient {
      */
     public getUser = async (username: string): Promise<APIUser | null> => {
         const response = await this.RITAPI.get(`/faculty/${username}`);
-        if (response) {
+        if (response && response.data && response.data.data && Object.keys(response.data.data).length !== 0) {
             return response.data.data;
-        }
+        };
         return null;
 
     }
