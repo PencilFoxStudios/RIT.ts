@@ -7,6 +7,13 @@ import { APIRoom } from './Rooms/APIRoom';
 import { APIBuilding } from './Buildings/APIBuilding';
 import { Building } from '../RIT.TS/Objects/Building';
 
+export class RITUserIsNotFacultyError extends Error {
+    constructor(username: string) {
+        super(`The user with the username ${username} is not a faculty member!\nAs of early 2024, fetching student courses is disabled.`);
+    }
+}
+
+
 export class RITClient {
 
 
@@ -15,6 +22,10 @@ export class RITClient {
         headers: {
             'Content-Type': 'application/json',
         },
+        validateStatus: function (status) {
+            return status < 500; // Resolve only if the status code is less than 500
+        }
+
     });
     constructor(private readonly key: string) {
         this.RITAPI.defaults.headers.common['RITAuthorization'] = `${this.key}`;
@@ -43,6 +54,9 @@ export class RITClient {
     */
     public getUserCourses = async (username: string): Promise<APICourse[] | null> => {
         const response = await this.RITAPI.get(`/faculty/${username}/courses`);
+        if((response.status == 401) && (response.data.error == "Unauthorized to display student information.")){
+            throw new RITUserIsNotFacultyError(username);
+        }
         return response.data;
     }
     /**

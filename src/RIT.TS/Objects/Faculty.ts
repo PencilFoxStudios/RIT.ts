@@ -37,7 +37,7 @@ export class Faculty implements IFaculty {
         this.initials = APIUser.initials["0"];
         this.universityID = APIUser.uidnumber["0"];
         // These properties will exist if it's a faculty member :)
-        this.department = APIUser.department![0];
+        this.department = APIUser.department?APIUser.department![0]:"";
     }
     
 
