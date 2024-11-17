@@ -1,6 +1,6 @@
 import { APIBuilding } from "../API/Buildings/APIBuilding";
 import { APICourse } from "../API/Courses/APICourse";
-import { RITClient } from "../API/RITClient";
+import { RITClient, RITUserIsNotFacultyError } from "../API/RITClient";
 import { APIRoom } from "../API/Rooms/APIRoom";
 import { APIUser } from "../API/Users/APIUser";
 import { UserType } from "../API/Users/UserType";
@@ -47,15 +47,21 @@ export class TigerClient {
                 if(!RITUsername){
                     throw Error("You must provide a username to get the courses from!")
                 }
-                const result: APICourse[]|null = await this.RITAPIClient.getUserCourses(RITUsername);
-                if(result){
-                    const courses:Course[] = [];
-                    for (const C of result){
-                        courses.push(new Course(this.RITAPIClient, C));
+                try {
+                    const result: APICourse[]|null = await this.RITAPIClient.getUserCourses(RITUsername);
+                    if(result){
+                        const courses:Course[] = [];
+                        for (const C of result){
+                            courses.push(new Course(this.RITAPIClient, C));
+                        }
+                        return courses;
                     }
-                    return courses;
+                    
+                } catch (error) {
+                    throw error;
                 }
                 return null;
+                
             }
         }
     }

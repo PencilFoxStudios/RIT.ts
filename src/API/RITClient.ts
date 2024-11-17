@@ -100,14 +100,28 @@ export class RITClient {
     */
     public getMeetingsInRoom = async (id: string, startDate?: string, endDate?: string): Promise<APIMeeting[] | null> => {
         let url = `/v2/rooms/${id}/meetings`
-        const response = await this.RITAPI.get(url, {
+        let response = await this.RITAPI.get(url, {
             params: {
                 date_start: startDate,
                 date_end: endDate,
             }
         });
-
-        return response.data;
+    
+        // handle pagination
+        let meetings: APIMeeting[] = response.data.data;
+        let page = 1;
+        while (response.data.links[2].url) {
+            page++;
+            response = await this.RITAPI.get(url, {
+                params: {
+                    date_start: startDate,
+                    date_end: endDate,
+                    page: page
+                }
+            });
+            meetings = meetings.concat(response.data.data);
+        }
+        return meetings;
     }
     /**
     * Access the RIT API to get the meetings that occur in a building.
@@ -139,9 +153,9 @@ export class RITClient {
             reqURL += `?term=${term}`;
         }
         const response = await this.RITAPI.get(reqURL);
-        if (response.data.term == null) {
-            return null;
-        }
+        // if (response.data.term == null) {
+        //     return null;
+        // }
         return response.data;
     }
 
