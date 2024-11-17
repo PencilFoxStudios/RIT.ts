@@ -34,8 +34,8 @@ test('RITClient returns correct building', async () => {
   expect(SelectedBuilding!.name).toBe("SH Explore & Devel");
 });
 
-// test('RITClient user does not exist', async () => {
-//   expect(Client.getUser("lol129")).toBeNull();
-// });
+test('RITClient user does not exist', async () => {
+  expect(await Client.getUser("lol129")).toBeNull();
+});
 
 

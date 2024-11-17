@@ -1,6 +1,6 @@
 {
   "name": "rit.ts",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A TypeScript package for interacting with api.rit.edu. ",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
