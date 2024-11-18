@@ -12,6 +12,7 @@ import { Building } from "./Objects/Building";
 import { Course } from "./Objects/Course";
 import { Faculty } from "./Objects/Faculty";
 import { Room } from "./Objects/Room";
+import { Staff } from "./Objects/Staff";
 import { Student } from "./Objects/Student";
 
 
@@ -28,13 +29,16 @@ export class TigerClient {
      */
     Users = (RITUsername?: IUser["username"]) => {
         return {
-            get: async (): Promise<Student | Faculty | null> => {
+            get: async (): Promise<Student | Faculty | Staff | null> => {
                 if(!RITUsername){
                     throw Error("You must provide a username to get information about!")
                 }
                 const User: APIUser | null = await this.RITAPIClient.getUser(RITUsername);
                 if (User) {
                     switch (User.type['0']) {
+
+                        case UserType.Staff:
+                            return new Staff(this.RITAPIClient, User);
                         case UserType.Faculty:
                             return new Faculty(this.RITAPIClient, User);
                         case UserType.Student:

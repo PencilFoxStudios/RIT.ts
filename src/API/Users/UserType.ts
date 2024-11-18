@@ -3,5 +3,6 @@
  */
 export enum UserType {
     Student = "student",
-    Faculty = "faculty"
+    Faculty = "faculty",
+    Staff = "staff"
 }

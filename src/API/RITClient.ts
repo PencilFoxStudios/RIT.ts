@@ -42,7 +42,7 @@ export class RITClient {
      */
     public getUser = async (username: string): Promise<APIUser | null> => {
         const response = await this.RITAPI.get(`/faculty/${username}`);
-        if (response && response.data && response.data.data && Object.keys(response.data.data).length !== 0) {
+        if (response.status == 200) {
             return response.data.data;
         };
         return null;
@@ -106,7 +106,9 @@ export class RITClient {
                 date_end: endDate,
             }
         });
-    
+        if(response.status == 404){
+            return null;
+        }
         // handle pagination
         let meetings: APIMeeting[] = response.data.data;
         let page = 1;
@@ -124,21 +126,73 @@ export class RITClient {
         return meetings;
     }
     /**
+    * Access the RIT API to get the meetings that occur in a building (on a specific day).
+    * @param buildingNumber The number of the building
+    * @param date The date of the search (y-m-d)
+    */
+    public getMeetingsInBuildingV2 = async (buildingNumber: string, date?: string): Promise<APIMeeting[] | null> => {
+        let url = `/buildings/${buildingNumber}/meetings`
+        let response = await this.RITAPI.get(url, {
+            params: {
+                date: date??undefined,
+            }
+        });
+        if(response.status == 404){
+            return null;
+        }
+        // handle pagination
+        let meetings: APIMeeting[] = response.data.data;
+        let page = 1;
+        while (response.data.links[2].url) {
+            page++;
+            response = await this.RITAPI.get(url, {
+                params: {
+                    date: date,
+                    page: page
+                }
+            });
+            meetings = meetings.concat(response.data.data);
+        }
+        return meetings;
+    }
+    /**
     * Access the RIT API to get the meetings that occur in a building.
+    * # DEPRECATED.
+    * ### The API is currently broken and the start and end dates will not work.
+    * ### Please use `getMeetingsInBuildingV2()` or `getMeetingsInRoom()` in the mean time.
     * @param buildingNumber The number of the building
     * @param startDate An optional start date of the search (y-m-d)
     * @param endDate An optional end date of the search (y-m-d)
+    * @deprecated as of 0.0.7
     */
     public getMeetingsInBuilding = async (buildingNumber: string, startDate?: string, endDate?: string): Promise<APIMeeting[] | null> => {
-        let url = `/v2/buildings/${buildingNumber}/meetings`
+        let url = `/buildings/${buildingNumber}/meetings`
         const response = await this.RITAPI.get(url, {
+            // so apparently the api broke, and now going to /v2/buildings/002/meetings returns a 404
+            // so we're going to do /buildings/002/meetings?date={}
             params: {
-                date_start: startDate,
-                date_end: endDate,
+                date_start: endDate,
+                date_end: startDate,
             }
         });
-
-        return response.data;
+        if(response.status == 404){
+            return null;
+        }
+        // handle pagination
+        let meetings: APIMeeting[] = response.data.data;
+        let page = 1;
+        while (response.data.links[2].url) {
+            page++;
+            const response = await this.RITAPI.get(url, {
+                params: {
+                    date_start: endDate,
+                    date_end: startDate,
+                    page: page
+                }
+            });
+            meetings = meetings.concat(response.data.data);
+        }
+        return meetings;
     }
     /**
      * Access the RIT API to get information about a course.
@@ -153,9 +207,9 @@ export class RITClient {
             reqURL += `?term=${term}`;
         }
         const response = await this.RITAPI.get(reqURL);
-        // if (response.data.term == null) {
-        //     return null;
-        // }
+        if (response.data.meetings.length == 0) {
+            return null;
+        }
         return response.data;
     }
 

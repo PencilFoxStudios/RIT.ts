@@ -77,7 +77,7 @@ describe('TigerClient Room Information', () => {
     const dateToCheckB = dayjs().add(2, 'year').toDate();
     const meetings = await SelectedRoom?.getMeetings(
       // From 
-      new DateObject(dateToCheckA.getMonth(), dateToCheckA.getDay(), dateToCheckA.getFullYear()), 
+      new DateObject(dateToCheckA.getMonth(), dateToCheckA.getDay(), dateToCheckA.getFullYear()),
       // To
       new DateObject(dateToCheckB.getMonth(), dateToCheckB.getDay(), dateToCheckB.getFullYear())
     );

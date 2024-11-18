@@ -13,15 +13,15 @@ export class Building implements IBuilding{
     number: string;
     name: string;
     letterCode: string;
-    getMeetings: (beforeDate?: DateObject, afterDate?: DateObject) => Promise<Meeting[] | null>;
+    getMeetings: (onDate?: DateObject) => Promise<Meeting[] | null>;
     constructor(RITClient: RITClient, BuildingData: APIBuilding) {
         this.RITClient = RITClient;
 
         this.number = BuildingData.building;
         this.name = BuildingData.name;
         this.letterCode = BuildingData.BuildingCode;
-        this.getMeetings = async (beforeDate?: DateObject, afterDate?: DateObject): Promise<Meeting[] | null> => {
-            const result: APIMeeting[]|null = await this.RITClient.getMeetingsInBuilding(this.number, beforeDate?.toDateString(), afterDate?.toDateString());
+        this.getMeetings = async (onDate?: DateObject): Promise<Meeting[] | null> => {
+            const result: APIMeeting[]|null = await this.RITClient.getMeetingsInBuildingV2(this.number, onDate?.toDateString());
             if(result){
                 const meetings:Meeting[] = [];
                 for (const M of result){
