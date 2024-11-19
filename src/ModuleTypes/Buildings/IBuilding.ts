@@ -6,5 +6,5 @@ export interface IBuilding {
     number:string,
     name:string,
     letterCode:string,
-    getMeetings: (beforeDate?:DateObject, afterDate?:DateObject) => Promise<Meeting[]|null>
+    getMeetings: (onDate?:DateObject) => Promise<Meeting[]>
 }

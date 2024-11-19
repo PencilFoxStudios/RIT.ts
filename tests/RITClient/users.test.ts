@@ -6,6 +6,7 @@
 import { RITClient } from '../../src/API/RITClient';
 import 'dotenv/config'
 import dayjs from 'dayjs' 
+import { UserNotFoundError } from '../../src/API/Errors';
 const Client = new RITClient(process.env.RIT_API_KEY!);
 
 describe('RITClient User Information', () => {
@@ -21,6 +22,8 @@ describe('RITClient User Information', () => {
   });
 
   test('RITClient user does not exist', async () => {
-    expect(await Client.getUser("lol129")).toBeNull();
+    expect(async() => {
+      await Client.getUser("lol129")
+    }).rejects.toThrow(UserNotFoundError);
   });
 });

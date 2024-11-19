@@ -5,17 +5,38 @@
  */
 import { TigerClient } from "../../src/RIT.TS/TigerClient";
 import 'dotenv/config'
-import dayjs from 'dayjs'
-import { Student } from "../../src/RIT.TS/Objects/Student";
-import { Building } from "../../src/RIT.TS/Objects/Building";
-import { RITUserIsNotFacultyError } from "../../src/API/RITClient";
-import { Faculty } from "../../src/RIT.TS/Objects/Faculty";
-import { Course } from "../../src/RIT.TS/Objects/Course";
-const Client: TigerClient = new TigerClient(process.env.RIT_API_KEY!)
+import { APIKeyNotValidError } from "../../src/API/Errors";
 describe('TigerClient General Functionality', () => {
   it('TigerClient should initialize with a valid API key', () => {
+    const Client: TigerClient = new TigerClient(process.env.RIT_API_KEY!)
     expect(Client).toBeInstanceOf(TigerClient);
   });
+  it('TigerClient should throw error if methods are called with an invalid API key', async () => {
+    const Client: TigerClient = new TigerClient("invalid key");
+    
+    expect(async() => {
+      await Client.Users("lhw2837").get()
+    }).rejects.toThrow(APIKeyNotValidError);
+    expect(async () => {
+      await Client.Buildings("006").get();
+    }).rejects.toThrow(APIKeyNotValidError);
+    expect(async () => {
+      await Client.Courses("CSCI-261").get();
+    }).rejects.toThrow(APIKeyNotValidError);
+    expect(async () => {
+      await Client.Rooms("006").get();
+    }).rejects.toThrow(APIKeyNotValidError);
+    expect(async () => {
+      await Client.Users("lhw2837").get();
+    }).rejects.toThrow(APIKeyNotValidError);
+    expect(async () => {
+      await Client.Buildings().getAll();
+    }).rejects.toThrow(APIKeyNotValidError);
+
+
+
+
+});
 });
 
 

@@ -15,8 +15,8 @@ export class Course implements ICourse{
     name: string;
     term?: string;
     studentCount: number;
-    getMeetings: () => Promise<Meeting[] | null>;
-    getInstructors: () => Promise<Faculty[] | null>;
+    getMeetings: () => Promise<Meeting[]>;
+    getInstructors: () => Promise<Faculty[]>;
     
     constructor(RITClient:RITClient, CourseData:APICourse){
         this.RITClient = RITClient;
@@ -27,14 +27,14 @@ export class Course implements ICourse{
         this.name = CourseData.name;
         this.term = CourseData.term;
         this.studentCount = CourseData.students;
-        this.getMeetings = async () : Promise<Meeting[] | null> => {
+        this.getMeetings = async () : Promise<Meeting[]> => {
             const meetings:Meeting[] = [];
             for (const meeting of CourseData.meetings){
                 meetings.push(new Meeting(this.RITClient, meeting))
             }
             return meetings;
         }
-        this.getInstructors = async () : Promise<Faculty[] | null> => {
+        this.getInstructors = async () : Promise<Faculty[]> => {
             const Facs:Faculty[] = [];
             if(CourseData.instructors){
                 for (const F of CourseData.instructors){

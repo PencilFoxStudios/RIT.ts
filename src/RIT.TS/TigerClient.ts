@@ -1,6 +1,6 @@
 import { APIBuilding } from "../API/Buildings/APIBuilding";
 import { APICourse } from "../API/Courses/APICourse";
-import { RITClient, RITUserIsNotFacultyError } from "../API/RITClient";
+import { RITClient } from "../API/RITClient";
 import { APIRoom } from "../API/Rooms/APIRoom";
 import { APIUser } from "../API/Users/APIUser";
 import { UserType } from "../API/Users/UserType";
@@ -29,42 +29,35 @@ export class TigerClient {
      */
     Users = (RITUsername?: IUser["username"]) => {
         return {
-            get: async (): Promise<Student | Faculty | Staff | null> => {
+            get: async (): Promise<Student | Faculty | Staff> => {
                 if(!RITUsername){
                     throw Error("You must provide a username to get information about!")
                 }
-                const User: APIUser | null = await this.RITAPIClient.getUser(RITUsername);
-                if (User) {
-                    switch (User.type['0']) {
-
-                        case UserType.Staff:
-                            return new Staff(this.RITAPIClient, User);
-                        case UserType.Faculty:
-                            return new Faculty(this.RITAPIClient, User);
-                        case UserType.Student:
-                            return new Student(this.RITAPIClient, User);
-                    }
+                const User: APIUser = await this.RITAPIClient.getUser(RITUsername);
+                switch (User.type['0']) {
+                    case UserType.Staff:
+                        return new Staff(this.RITAPIClient, User);
+                    case UserType.Faculty:
+                        return new Faculty(this.RITAPIClient, User);
+                    case UserType.Student:
+                        return new Student(this.RITAPIClient, User);
                 }
-                return null;
             },
-            getCourses: async (): Promise<Course[] | null> => {
+            getCourses: async (): Promise<Course[]> => {
                 if(!RITUsername){
                     throw Error("You must provide a username to get the courses from!")
                 }
                 try {
-                    const result: APICourse[]|null = await this.RITAPIClient.getUserCourses(RITUsername);
-                    if(result){
-                        const courses:Course[] = [];
-                        for (const C of result){
-                            courses.push(new Course(this.RITAPIClient, C));
-                        }
-                        return courses;
+                    const result: APICourse[] = await this.RITAPIClient.getUserCourses(RITUsername);
+                    const courses:Course[] = [];
+                    for (const C of result){
+                        courses.push(new Course(this.RITAPIClient, C));
                     }
-                    
+                    return courses;
                 } catch (error) {
                     throw error;
                 }
-                return null;
+            
                 
             }
         }
@@ -75,15 +68,12 @@ export class TigerClient {
      */
     Rooms = (RoomID?: IRoom["id"]) => {
         return {
-            get: async (): Promise<Room | null> => {
+            get: async (): Promise<Room> => {
                 if(!RoomID){
                     throw Error("You must provide a room ID to get information about!")
                 }
-                const RoomAPI: APIRoom | null = await this.RITAPIClient.getRoom(RoomID);
-                if (RoomAPI) {
-                    return new Room(this.RITAPIClient, RoomAPI)
-                }
-                return null;
+                const RoomAPI: APIRoom = await this.RITAPIClient.getRoom(RoomID);
+                return new Room(this.RITAPIClient, RoomAPI)
             },
         }
     }
@@ -93,15 +83,12 @@ export class TigerClient {
      */
     Courses = (CourseWithSection?: ICourse["courseCode"]) => {
         return {
-            get: async (): Promise<Course | null> => {
+            get: async (): Promise<Course> => {
                 if(!CourseWithSection){
                     throw Error("You must provide a course to get information about!")
                 }
-                const CourseAPI: APICourse | null = await this.RITAPIClient.getCourse(CourseWithSection);
-                if (CourseAPI) {
-                    return new Course(this.RITAPIClient, CourseAPI)
-                }
-                return null;
+                const CourseAPI: APICourse = await this.RITAPIClient.getCourse(CourseWithSection);
+                return new Course(this.RITAPIClient, CourseAPI);
             },
         }
     }
@@ -111,26 +98,20 @@ export class TigerClient {
      */
     Buildings = (BuildingNumber?: IBuilding["number"]) => {
         return {
-            get: async (): Promise<Building | null> => {
+            get: async (): Promise<Building> => {
                 if(!BuildingNumber){
                     throw Error("You must provide a building to get information about!")
                 }
-                const BuildingAPI: APIBuilding | null = await this.RITAPIClient.getBuilding(BuildingNumber);
-                if (BuildingAPI) {
-                    return new Building(this.RITAPIClient, BuildingAPI)
-                }
-                return null;
+                const BuildingAPI: APIBuilding = await this.RITAPIClient.getBuilding(BuildingNumber);
+                return new Building(this.RITAPIClient, BuildingAPI)
             },
-            getAll: async(): Promise<Building[]|null> => {
-                const BuildingsAPI: APIBuilding[] | null = await this.RITAPIClient.getAllBuildings();
-                if (BuildingsAPI) {
-                    const Buildings: Building[] = [];
-                    for (const APIBuilding of BuildingsAPI){
-                        Buildings.push(new Building(this.RITAPIClient, APIBuilding))
-                    }
-                    return Buildings;
+            getAll: async(): Promise<Building[]> => {
+                const BuildingsAPI: APIBuilding[] = await this.RITAPIClient.getAllBuildings();
+                const Buildings: Building[] = [];
+                for (const APIBuilding of BuildingsAPI){
+                    Buildings.push(new Building(this.RITAPIClient, APIBuilding))
                 }
-                return null;
+                return Buildings;
             }
         }
     }

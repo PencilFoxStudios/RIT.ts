@@ -15,7 +15,7 @@ export interface ICourse {
     /** 42 */
     studentCount: number,
     /** Returns the faculty associated with this course, if any. */
-    getInstructors: () => Promise<Faculty[]|null>
+    getInstructors: () => Promise<Faculty[]>
     /** Returns the meetings associated with this course, if any. */
-    getMeetings: () => Promise<Meeting[]|null>
+    getMeetings: () => Promise<Meeting[]>
 }

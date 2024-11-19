@@ -5,12 +5,8 @@
  */
 import { TigerClient } from "../../src/RIT.TS/TigerClient";
 import 'dotenv/config'
-import dayjs from 'dayjs'
-import { Student } from "../../src/RIT.TS/Objects/Student";
-import { Building } from "../../src/RIT.TS/Objects/Building";
-import { RITUserIsNotFacultyError } from "../../src/API/RITClient";
-import { Faculty } from "../../src/RIT.TS/Objects/Faculty";
 import { Course } from "../../src/RIT.TS/Objects/Course";
+import { CourseNotFoundError } from "../../src/API/Errors";
 
 const Client: TigerClient = new TigerClient(process.env.RIT_API_KEY!)
 describe('TigerClient Courses', () => {
@@ -39,9 +35,10 @@ describe('TigerClient Courses', () => {
   it('TigerClient should throw an error if the course ID is not provided', async () => {
     await expect(Client.Courses().get()).rejects.toThrow('You must provide a course to get information about!');
   });
-  it('TigerClient should return null if the course does not exist', async () => {
-    const course: Course|null = await Client.Courses('invalidCourseId').get();
-    expect(course).toBeNull();
+  it('TigerClient should throw error if the course does not exist', async () => {
+    expect(async () => {
+      await Client.Courses('invalidCourseId').get();
+    }).rejects.toThrow(CourseNotFoundError);
   });
 
 

@@ -1,6 +1,7 @@
 
 import { APICourse } from "../../API/Courses/APICourse";
 import { RITClient } from "../../API/RITClient";
+import { UserIsStudentError } from "../../API/Errors";
 import { APIUser } from "../../API/Users/APIUser";
 import { UserType } from "../../API/Users/UserType";
 import { ICourse } from "../../ModuleTypes/Courses";
@@ -42,16 +43,17 @@ export class Student implements IStudent {
         this.plans = APIUser.plans!;
         this.colleges = APIUser.colleges!;
     }
-
-    async getCourses(): Promise<Course[] | null> {
-        const result: APICourse[]|null = await this.RITClient.getUserCourses(this.username);
-        if(result){
-            const courses:Course[] = [];
-            for (const C of result){
-                courses.push(new Course(this.RITClient, C));
-            }
-            return courses;
-        }
-        return null;
+    /**
+     * Get the courses that the student is enrolled in.
+     * 
+     * @deprecated This method is not currently possible due to privacy concerns.
+     */
+    async getCourses(): Promise<Course[]> {
+        /**
+         * Getting the courses for a student is a bit more complicated than for a faculty member...
+         * ...and by complicated I mean it's not currently possible due to what I
+         * can only assume is privacy concerns.
+         */
+        throw new UserIsStudentError(this.username);
     }
 }

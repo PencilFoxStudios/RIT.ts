@@ -39,15 +39,12 @@ export class Staff implements IStaff {
     }
     
 
-    async getCourses(): Promise<Course[] | null> {
-        const result: APICourse[]|null = await this.RITClient.getUserCourses(this.username);
-        if(result){
-            const courses:Course[] = [];
-            for (const C of result){
-                courses.push(new Course(this.RITClient, C));
-            }
-            return courses;
+    async getCourses(): Promise<Course[]> {
+        const result: APICourse[] = await this.RITClient.getUserCourses(this.username);
+        const courses:Course[] = [];
+        for (const C of result){
+            courses.push(new Course(this.RITClient, C));
         }
-        return null;
+        return courses;
     }
 }

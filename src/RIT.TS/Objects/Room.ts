@@ -18,7 +18,7 @@ export class Room implements IRoom {
     roomNumber: string;
     roomFullName: string;
     maxCapacity: number;
-    getMeetings: (beforeDate?: DateObject, afterDate?: DateObject) => Promise<Meeting[] | null>;
+    getMeetings: (onDate?:DateObject) => Promise<Meeting[]>;
 
     constructor(RITClient: RITClient, RoomData: APIRoom) {
         this.RITClient = RITClient;
@@ -31,16 +31,13 @@ export class Room implements IRoom {
         this.roomNumber = RoomData.room;
         this.roomFullName = RoomData.name;
         this.maxCapacity = RoomData.capacity;
-        this.getMeetings = async (beforeDate?: DateObject, afterDate?: DateObject): Promise<Meeting[] | null> => {
-            const result: APIMeeting[]|null = await this.RITClient.getMeetingsInRoom(this.id, beforeDate?.toDateString(), afterDate?.toDateString());
-            if(result){
-                const meetings:Meeting[] = [];
-                for (const M of result){
-                    meetings.push(new Meeting(this.RITClient, M));
-                }
-                return meetings;
+        this.getMeetings = async (onDate?: DateObject): Promise<Meeting[]> => {
+            const result: APIMeeting[] = await this.RITClient.getMeetingsInRoomV2(this.id, onDate?.toDateString());
+            const meetings:Meeting[] = [];
+            for (const M of result){
+                meetings.push(new Meeting(this.RITClient, M));
             }
-            return null;
+            return meetings;
         }
     }
 }

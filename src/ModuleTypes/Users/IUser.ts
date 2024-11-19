@@ -14,5 +14,5 @@ export interface IUser {
      * I still have yet to figure out what exactly this is.
      */
     universityID: string,
-    getCourses: () => Promise<ICourse[]|null>
+    getCourses: () => Promise<ICourse[]>
 }

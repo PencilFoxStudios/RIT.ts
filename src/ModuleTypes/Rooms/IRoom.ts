@@ -13,5 +13,5 @@ export interface IRoom {
     roomFullName: string,
     maxCapacity: number,
     /** Returns the meetings that take place in this room. */
-    getMeetings: (beforeDate?:DateObject, afterDate?:DateObject) => Promise<Meeting[]|null>
+    getMeetings: (onDate?:DateObject) => Promise<Meeting[]>
 }

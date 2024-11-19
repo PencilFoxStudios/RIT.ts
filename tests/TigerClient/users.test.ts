@@ -8,10 +8,10 @@ import 'dotenv/config'
 import dayjs from 'dayjs'
 import { Student } from "../../src/RIT.TS/Objects/Student";
 import { Building } from "../../src/RIT.TS/Objects/Building";
-import { RITUserIsNotFacultyError } from "../../src/API/RITClient";
 import { Faculty } from "../../src/RIT.TS/Objects/Faculty";
 import { Course } from "../../src/RIT.TS/Objects/Course";
 import { Staff } from "../../src/RIT.TS/Objects/Staff";
+import { UserIsStudentError } from "../../src/API/Errors";
 
 const Client: TigerClient = new TigerClient(process.env.RIT_API_KEY!)
 describe('TigerClient Users',  () => {
@@ -21,7 +21,7 @@ describe('TigerClient Users',  () => {
     expect(student!.firstName).toBe("Liam");
     expect(student!.username).toBe("lhw2837");
     // shouldn't be possible to get courses for a student
-    await expect(student!.getCourses()).rejects.toThrowError(RITUserIsNotFacultyError);
+    await expect(student!.getCourses()).rejects.toThrowError(UserIsStudentError);
   }, 15000);
 
   test('TigerClient throws error on get user with no username', async () => {
@@ -52,12 +52,16 @@ describe('TigerClient Users',  () => {
     /** 
      * Not too sure why this takes so long... will explore later.
     */
-    await expect(Client.Users("hlo7533").getCourses()).rejects.toThrowError(RITUserIsNotFacultyError);
-  }, 8000);
+    await expect(Client.Users("hlo7533").getCourses()).rejects.toThrowError(UserIsStudentError);
+  }, 15000);
   
   test('TigerClient gets faculty courses correctly', async () => {
     const Courses: Course[] = ((await Client.Users("munson").getCourses()) as Course[]);
     expect(Courses).toBeTruthy();
+  });
+
+  test('TigerClient cannot get courses from an empty user', async () => {
+    await expect(Client.Users().getCourses()).rejects.toThrow();
   });
 
 

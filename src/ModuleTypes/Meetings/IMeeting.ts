@@ -5,6 +5,8 @@ import { IRoom } from "../Rooms";
 export interface IMeeting {
     /** 0300d5f396a0937481547afd0db12a27 */
     id: string,
+    /** b07510a8c71c60e722deeb9e67eadb74 */
+    roomID: string,
     /** 2024-02-06 */
     date: string,
     /** Monday */

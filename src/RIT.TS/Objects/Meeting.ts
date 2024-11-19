@@ -17,7 +17,8 @@ export class Meeting implements IMeeting{
     meetingType: MeetingType;
     createdAt: string;
     updatedAt: string;
-    getRoom: () => Promise<Room | null>;
+    roomID: string;
+    getRoom: () => Promise<Room>;
     constructor(
         RITClient:RITClient,
         MeetingData:APIMeeting
@@ -33,16 +34,14 @@ export class Meeting implements IMeeting{
         this.meetingType = MeetingData.meetingtype;
         this.createdAt = MeetingData.created_at;
         this.updatedAt = MeetingData.updated_at;
-        this.getRoom = async () : Promise<Room | null> => {
-            const resRoom = await this.RITClient.getRoom(this.id);
-            if(resRoom){
-                return new Room(this.RITClient, resRoom)
-            }else{
-                return null;
-            }
+        this.roomID = MeetingData.room_id;
+        this.getRoom = async () : Promise<Room> => {
+            const resRoom = await this.RITClient.getRoom(this.roomID);
+            return new Room(this.RITClient, resRoom)
            
         }
     }
+  
     
 
     

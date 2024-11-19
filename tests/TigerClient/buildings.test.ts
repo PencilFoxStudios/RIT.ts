@@ -58,5 +58,14 @@ describe('TigerClient Buildings', () => {
     );
     expect(meetings).toHaveLength(0);
   });
+
+  /**
+   * Test to verify that the TigerClient correctly throws an error when no building ID is provided.
+   */
+  test('TigerClient throws error on get building with no building ID', async () => {
+    expect(async () => {
+      (await Client.Buildings().get())
+    }).rejects.toThrow()
+  })
 })
 
