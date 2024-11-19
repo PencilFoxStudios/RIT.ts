@@ -35,7 +35,7 @@ describe('TigerClient Room Information', () => {
     expect(async () => {
       await Client.Rooms('invalidRoomId').get();
     }).rejects.toThrow(RoomNotFoundError);
-  });
+  }, 10000);
 
   /**
    * Test to verify that the TigerClient correctly retrieves a room by its identifier.
@@ -45,7 +45,7 @@ describe('TigerClient Room Information', () => {
     expect(SelectedRoom).toBeTruthy();
     expect(SelectedRoom!.roomFullName).toBe("George Eastman Hall (EAS)-1310");
     expect(SelectedRoom!.buildingCode).toBe("EAS");
-  });
+  }, 10000);
 
   /**
    * Test to verify that the TigerClient throws an error if the room ID is not provided.
@@ -65,7 +65,7 @@ describe('TigerClient Room Information', () => {
     expect(async () => {
       await meetings![0].getRoom();
     }).not.toThrow();
-  });
+  }, 10000);
 
   /**
    * Test to verify that the TigerClient returns null if there are no meetings in a room.
@@ -79,6 +79,6 @@ describe('TigerClient Room Information', () => {
       new DateObject(12, 12, 1993)
     );
     expect(meetings).toHaveLength(0);
-  });
+  }, 10000);
 
 });

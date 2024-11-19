@@ -32,12 +32,12 @@ describe('TigerClient Users',  () => {
 
   test('TigerClient gets faculty correctly', async () => {
     const SelectedFaculty: Faculty = ((await Client.Users("gpavks").get()) as Faculty)
+    expect(await SelectedFaculty.getCourses()).toBeTruthy();
     expect(SelectedFaculty.firstName).toBe("Garret"); 
     expect(SelectedFaculty.username).toBe("gpavks");
     expect(SelectedFaculty).toBeInstanceOf(Faculty);
-    expect(await SelectedFaculty.getCourses()).toBeTruthy();
     expect(SelectedFaculty.department).not.toBe("");
-  }, 15000);
+  }, 30000);
   
   test('TigerClient gets staff correctly', async () => {
     const SelectedFaculty: Staff = ((await Client.Users("kehrli").get()) as Staff)

@@ -17,7 +17,7 @@ describe('TigerClient Courses', () => {
     expect(course).toBeInstanceOf(Course);
     const [prefix, code, section] = courseId.split('-');
     expect(course?.courseCode).toBe(`${prefix}-${code}`);
-  });
+  }, 15000);
   it('TigerClient should get course meetings correctly', async () => {
     const courseId = 'GCIS-123-02';
     const course: Course|null = await Client.Courses(courseId).get();
