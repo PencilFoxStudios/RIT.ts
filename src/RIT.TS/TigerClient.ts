@@ -83,11 +83,11 @@ export class TigerClient {
      */
     Courses = (CourseWithSection?: ICourse["courseCode"]) => {
         return {
-            get: async (): Promise<Course> => {
+            get: async (term?:string): Promise<Course> => {
                 if(!CourseWithSection){
                     throw Error("You must provide a course to get information about!")
                 }
-                const CourseAPI: APICourse = await this.RITAPIClient.getCourse(CourseWithSection);
+                const CourseAPI: APICourse = await this.RITAPIClient.getCourse(CourseWithSection, term);
                 return new Course(this.RITAPIClient, CourseAPI);
             },
         }

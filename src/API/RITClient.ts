@@ -98,14 +98,10 @@ export class RITClient {
      */
     public getBuilding = async (numberCode: string): Promise<APIBuilding> => {
         const response = await this.get(`/buildings`);
-        if (response.data.data) {
-            const foundBuilding: APIBuilding = response.data.data.find((Building: APIBuilding) => {
-                return Building.building == numberCode;
-            });
-            return foundBuilding;
-        }else{
-            throw new GeneralAxiosError(response);
-        }
+        const foundBuilding: APIBuilding = response.data.data.find((Building: APIBuilding) => {
+            return Building.building == numberCode;
+        });
+        return foundBuilding;
     }
 
     /**

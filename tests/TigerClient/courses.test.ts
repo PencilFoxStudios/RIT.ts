@@ -26,8 +26,8 @@ describe('TigerClient Courses', () => {
     expect(meetings).toBeTruthy();
   })
   it('TigerClient should get course instructors correctly', async () => {
-    const courseId = 'GCIS-123-02';
-    const course: Course|null = await Client.Courses(courseId).get();
+    const courseId = 'GCIS-123-09';
+    const course: Course|null = await Client.Courses(courseId).get("2241");
     expect(course).not.toBeNull();
     const instructors = await course!.getInstructors();
     expect(instructors).toBeTruthy();
@@ -38,6 +38,9 @@ describe('TigerClient Courses', () => {
   it('TigerClient should throw error if the course does not exist', async () => {
     expect(async () => {
       await Client.Courses('invalidCourseId').get();
+    }).rejects.toThrow(CourseNotFoundError);
+    expect(async () => {
+      await Client.Courses('invalidCourseId').get("2131");
     }).rejects.toThrow(CourseNotFoundError);
   });
 

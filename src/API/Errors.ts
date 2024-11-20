@@ -7,7 +7,7 @@ export class RITAPIError extends Error {
 }
 
 export class GeneralAxiosError extends RITAPIError {
-    constructor(response: AxiosResponse) {
+    constructor(response: AxiosResponse|{status: number, statusText: string}) {
         super(`An error occurred while making a request to the RIT API: ${response.status} ${response.statusText}`);
     }
 }
