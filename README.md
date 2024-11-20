@@ -17,7 +17,7 @@ I am relatively new to contributing to open-source projects. If you have improve
 
 
 # Using This Module
-It’s fairly straightforward for now, but I plan to add more features as time permits. 🚀
+It’s fairly straightforward for now, but I plan to add more features as time permits.
 
 ## Setup
 First, install the package using npm:
