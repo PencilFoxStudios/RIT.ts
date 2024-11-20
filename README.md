@@ -7,7 +7,6 @@
 [![codecov](https://codecov.io/gh/PencilFoxStudios/RIT.ts/graph/badge.svg?token=TT32PR0E8E)](https://codecov.io/gh/PencilFoxStudios/RIT.ts)
 ![Tiger Approved](https://img.shields.io/badge/Tiger-Approved-orange)
 
----
 
 # Introduction
 ### 🗒️ Purpose
@@ -16,7 +15,6 @@ This package was developed by a full-time software engineering student at RIT to
 ### ⭐ Contributing
 I am relatively new to contributing to open-source projects. If you have improvements or wish to implement more features from the RIT API, feel free to submit a pull request! As a full-time student, I might take a bit to review your contributions, so please be patient.
 
----
 
 # Using This Module
 It’s fairly straightforward for now, but I plan to add more features as time permits. 🚀
